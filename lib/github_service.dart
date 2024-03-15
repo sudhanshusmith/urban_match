@@ -4,10 +4,14 @@ import 'package:http/http.dart' as http;
 
 class GithubService {
   static const String baseUrl = 'https://api.github.com';
+  static const userHeader = {
+    "authorization": "token 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"
+  };
 
   static Future<List<dynamic>> getRepositories() async {
-    final response =
-        await http.get(Uri.parse('$baseUrl/users/freeCodeCamp/repos'));
+    final response = await http.get(
+        Uri.parse('$baseUrl/users/freeCodeCamp/repos'),
+        headers: userHeader);
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -16,12 +20,13 @@ class GithubService {
   }
 
   static Future<dynamic> getLastCommit(String full_name) async {
-    final response =
-        await http.get(Uri.parse('$baseUrl/repos/$full_name/commits'));
+    final response = await http.get(
+        Uri.parse('$baseUrl/repos/$full_name/commits'),
+        headers: userHeader);
     if (response.statusCode == 200) {
       final List<dynamic> commits = json.decode(response.body);
       if (commits.isNotEmpty) {
-        return commits[0]['commit']['message'];
+        return commits[0]['commit'];
       } else {
         return 'No commits found';
       }
