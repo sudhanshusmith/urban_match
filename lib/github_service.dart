@@ -4,9 +4,7 @@ import 'package:http/http.dart' as http;
 
 class GithubService {
   static const String baseUrl = 'https://api.github.com';
-  static const userHeader = {
-    "authorization": "token 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"
-  };
+  static const userHeader = {"authorization": "token <your_token>"};
 
   static Future<List<dynamic>> getRepositories() async {
     final response = await http.get(
